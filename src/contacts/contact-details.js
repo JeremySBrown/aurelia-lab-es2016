@@ -8,7 +8,7 @@ export class ContactDetails {
     }
 
     activate(params) {
-        return this.data.getContact(params.id)
+        this.data.getContact(params.id)
                 .then(contact => this.contact = contact);
     }    
 }
