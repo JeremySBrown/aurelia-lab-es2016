@@ -1,195 +1,102 @@
 <template>
-    <h1>${title}</h1>
+    <h1>${header}</h1>
     <div class="lead">${message}</div>
-    <require from="./resources/date-format"></require>
 
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Value Converters
-            </div>
-            <div class="panel-body">
-                <p>${demoDate}</p>
-                <p>${demoDate | dateFormat:'ddd M/D/YYYY h:mm a'}</p>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" value.bind="firstName">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="email" class="form-control" id="lastName" placeholder="Last Name" value.two-way="lastName">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" checked.bind="isActive">
+                        Is Active
+                    </label>
+                </div>
+                <button view-spy type="button" class="btn ${isActive ? 'btn-primary' :'btn-info'}" click.trigger="toggleActive()">Toggle Active</button>
+            </form>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="First Name" value.bind="firstName">
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="email" class="form-control" id="lastName" placeholder="Last Name" value.two-way="lastName">
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" checked.bind="isActive">
-                            Is Active
-                        </label>
-                    </div>
-                    <button view-spy type="button" class="btn btn-default" click.trigger="toggleActive()">Toggle Active</button>
-                </form>
-            </div>
-        </div>
+    </div>
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <p>
+                <strong>One Way Binding:</strong> <span innerHtml.bind="firstName"></span>
+            </p>
+            <p>
+                <strong>One Time Binding:</strong> <span textcontent.one-time="firstName"></span>
+            </p>
+            <p>
+                <strong>Binding To Computed Property:</strong><span>${fullName}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Select Elements</div>
+        <div class="panel-body">
+            <div>
+                <strong>Collection of Values</strong>
                 <p>
-                    <strong>One Way Binding:</strong> <span innerHtml.bind="firstName"></span>
+                    <select value.bind="favoriteNumber" class="form-control">
+                        <option value="">Select Number</option>
+                        <option repeat.for="number of numbers">${number}</option>
+                    </select>
                 </p>
                 <p>
-                    <strong>One Time Binding:</strong> <span textcontent.one-time="firstName"></span>
+                    <strong>Number Selected:</strong><span textcontent.bind="favoriteNumber"></span>
+                </p>
+            </div>
+
+            <div>
+                <strong>Collection of Objects</strong>
+                <p>
+                    <select value.bind="favoriteColor" class="form-control">
+                        <option value="">Select Color</option>
+                        <option repeat.for="color of colors" model.bind="color">${color.name}</option>
+                    </select>
                 </p>
                 <p>
-                    <strong>Binding To Computed Property:</strong><span>${fullName}</span>
+                    <strong>Color Selected:</strong><span textcontent.bind="favoriteColor.name" css="color:${favoriteColor.value}"></span>
                 </p>
             </div>
-        </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Select Elements</div>
-            <div class="panel-body">
-                <div>
-                    <strong>Collection of Values</strong>
-                    <p>
-                        <select value.bind="favoriteNumber" class="form-control">
-                            <option value="">Select Number</option>
-                            <option repeat.for="number of numbers">${number}</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>Number Selected:</strong><span textcontent.bind="favoriteNumber"></span>
-                    </p>
-                </div>
-                <div>
-                    <strong>Collection of Objects</strong>
-                    <p>
-                        <select value.bind="favoriteColor" class="form-control">
-                            <option value="">Select Color</option>
-                            <option repeat.for="color of colors" model.bind="color">${color.name}</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>Color Selected:</strong><span textcontent.bind="favoriteColor.name" css="color:${favoriteColor.value}"></span>
-                    </p>
-                </div>
-                <div>
-                    <strong>Multiple: Collection of Values</strong>
-                    <p>
-                        <select value.bind="favoriteNumbers" class="form-control" multiple>
-                            <option repeat.for="number of numbers">${number}</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>Number Selected:</strong><span textcontent.bind="favoriteNumbers"></span>
-                    </p>
-                </div>
-                <div>
-                    <strong>Multiple: Collection of Objects</strong>
-                    <p>
-                        <select value.bind="favoriteColors" class="form-control" multiple>
-                            <option repeat.for="color of colors" model.bind="color">${color.name}</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>Color Selected:</strong><span textcontent.bind="favoriteColor.name" css="color:${favoriteColor.value}"></span>
-                        <ul class="list-group">
-                            <li repeat.for="color of favoriteColors" class="list-group-item" css="background-color:${color.value}">
-                                <strong>${color.name}</strong>
-                            </li>
-                        </ul>
-                    </p>
-                </div>
-                <div>
-                    <strong>Gottcha!</strong>
-                    <p>
-                        <select value.bind="gottcha" class="form-control">
-                            <option value="">Select Number</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>Number Selected:</strong> <span class="text-info" textcontent.bind="gottcha"></span>
-                    </p>
-                    <p>
-                        <strong>Gottcha Is a Number:</strong> <span class="text-info" textcontent.bind="isGottchaIsANumber"></span>
-                    </p>
-                </div>
+
+            <div>
+                <strong>Multiple: Collection of Values</strong>
+                <p>
+                    <select value.bind="favoriteNumbers" class="form-control" multiple>
+                        <option repeat.for="number of numbers">${number}</option>
+                    </select>
+                </p>
+                <p>
+                    <strong>Number Selected:</strong><span textcontent.bind="favoriteNumbers"></span>
+                </p>
             </div>
-        </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">Radio &amp; Checkboxes</div>
-            <div class="panel-body">
-                <div>
-                    <strong>Collection of Values:</strong>
-                    <div class="radio" repeat.for="number of numbers">
-                        <label>
-                            <input type="radio" name="secondFavoriteNumber" value.bind="number" checked.bind="$parent.contact.secondFavoriteNumber"/> ${number}
-                        </label>
-                    </div>
-                    <p>
-                        <strong>Number Selected:</strong><span textcontent.bind="contact.secondFavoriteNumber"></span>
-                    </p>
-                </div>
-                <div>
-                    <strong>Collection of Objects:</strong>
-                    <div class="radio" repeat.for="color of colors">
-                        <label css="background-color:${color.value};font-weight:bold;">
-                            <input type="radio" name="secondFavoriteColor" model.bind="color" checked.bind="$parent.contact.secondFavoriteColor"/> ${color.name}
-                        </label>
-                    </div>
-                    <p>
-                        <strong>Color Selected:</strong><span textcontent.bind="contact.secondFavoriteColor.name" css="color:${contact.secondFavoriteColor.value};font-weight:bold"></span>
-                    </p>
-                </div>
-                <div>
-                    <strong>Collection of Values: (must be bound to an array)</strong>
-                    <div class="checkbox" repeat.for="number of numbers">
-                        <label>
-                            <input type="checkbox" value.bind="number" checked.bind="$parent.secondFavoriteNumbers"/> ${number}
-                        </label>
-                    </div>
-                    <p>
-                        <strong>Numbers Selected:</strong>
-                        <ul>
-                            <li repeat.for="number of secondFavoriteNumbers"><strong>${number}</strong></li>
-                        </ul>
-                    </p>
-                </div>
-                <div>
-                    <strong>Collection of Objects: (must be bound to an array)</strong>
-                    <div class="checkbox" repeat.for="color of colors">
-                        <label css="color:${color.value}">
-                            <input type="checkbox" model.bind="color" checked.bind="$parent.secondFavoriteColors"/> ${color.name}
-                        </label>
-                    </div>
-                    <p>
-                        <strong>Colors Selected:</strong>
-                        <ul class="list-group">
-                            <li repeat.for="color of secondFavoriteColors" class="list-group-item" css="background-color:${color.value}">
-                                <strong>${color.name}</strong>
-                            </li>
-                        </ul>
-                    </p>
-                </div>
+            <div>
+                <strong>Multiple: Collection of Objects</strong>
+                <p>
+                    <select value.bind="favoriteColors" class="form-control" multiple>
+                        <option repeat.for="color of colors" model.bind="color">${color.name}</option>
+                    </select>
+                </p>
+                <p>
+                    <strong>Color Selected:</strong><span textcontent.bind="favoriteColor.name" css="color:${favoriteColor.value}"></span>
+                    <ul class="list-group">
+                        <li repeat.for="color of favoriteColors" class="list-group-item" css="background-color:${color.value}">
+                            <strong>${color.name}</strong>
+                        </li>
+                    </ul>
+                </p>
             </div>
-        </div>
 
+        </div>
     </div>
 </template>
-<!--<select value.bind="gottcha" class="form-control">
-                            <option value="">Select Number</option>
-                            <option model.bind="1">1</option>
-                            <option model.bind="2">2</option>
-                            <option model.bind="3">3</option>
-                            <option model.bind="4">4</option>
-                            <option model.bind="5">5</option>
-                        </select>-->
+

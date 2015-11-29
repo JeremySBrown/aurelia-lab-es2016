@@ -1,0 +1,35 @@
+﻿<template>
+    <div class="lead">${contact.firstName} ${contact.lastName}</div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">First Name:</label>
+                <span>${contact.firstName}</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Last Name:</label>
+                <span>${contact.lastName}</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Email:</label>
+                <span>${contact.email}</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Phone:</label>
+                <span>${contact.phone}</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Allow SMS:</label>
+                <span>${contact.allowSMS ? 'Yes' : 'No'}</span>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <img src="${contact.photoUri}" if.bind="contact.photoUri" />
+        </div>
+    </div>
+       
+
+    <a class="btn btn-default" route-href="route:contacts">Back</a>
+    <a route-href="route:contactEdit; params.bind:{id:contact.id}" class="btn btn-primary">Edit</a>
+</template>
